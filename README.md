@@ -40,6 +40,10 @@ pip install torch transformers pandas numpy matplotlib seaborn tqdm
 
 ---
 
+2. 코드 설명 1. 사전 세팅 Device 설정: GPU를 사용할 수 있으면 CUDA를 이용하고, 그렇지 않으면 CPU를 사용합니다. python 복사 편집 device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 2. 데이터 로드 CSV 파일을 로드하고, 결측치를 제거한 후, Rating을 실수형으로 변환합니다. 리뷰의 평점을 기준으로 긍정/부정을 라벨링합니다. python 복사 편집 df = pd.read_csv("cleaned_sampled_12_reviews_final.csv") df = df.dropna(subset=["Text", "Branch", "Rating"]) df["Label"] = df["Rating"].apply(lambda x: 1 if x > 3 else 0) 3. 모델 로드 MobileBERT 모델을 로드하고, 해당 모델을 사용하여 리뷰 텍스트의 긍정/부정을 예측합니다. python 복사 편집 model = MobileBertForSequenceClassification.from_pretrained("mobilebert_hotel_finetuned") tokenizer = MobileBertTokenizer.from_pretrained("mobilebert_hotel_finetuned") model.to(device) model.eval() 4. 리뷰 예측 리뷰 텍스트를 토크나이징하여 모델에 입력하고, 각 리뷰에 대해 긍정/부정 예측을 수행합니다. python 복사 편집 inputs = tokenizer(texts, truncation=True, padding="max_length", max_length=256, return_tensors="pt") 5. 지점별 평점 계산 각 지점별로 실제 평점의 평균을 계산하고, 예측된 긍정 비율을 기반으로 예상 평점을 계산합니다. python 복사 편집 actual_ratings = grouped["Rating"].mean() positive_ratio = grouped["Predicted"].mean() estimated_ratings = positive_ratio * 4 + 1 6. 상관계수 계산 실제 평점과 예측 평점 간의 상관관계를 계산하여 신뢰도를 분석합니다. python 복사 편집 correlation = result["Actual_Avg_Rating"].corr(result["Estimated_Rating"]) 7. 시각화 실제 평점과 예상 평점 간의 관계를 시각화하여 직관적으로 비교할 수 있습니다. python 복사 편집 sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=result.index) 📈 분석 결과 1. 상관관계 분석 상관계수: 실제 평점과 예측 평점 간의 상관관계를 계산하여, 예측 모델의 신뢰도를 분석합니다. 상관계수 > 0.75: 신뢰도가 높음 상관계수 0.4 ~ 0.75: 중간 정도의 신뢰도 상관계수 < 0.4: 신뢰도가 낮음 2. 시각화 결과 지점별 실제 평점과 예상 평점의 관계를 시각화하여, 모델 예측이 실제 평점과 어느 정도 일치하는지 확인할 수 있습니다. 🚀 개선 방안 파인튜닝: MobileBERT 모델을 현재 데이터셋에 맞게 추가로 파인튜닝할 수 있습니다. 클래스 불균형 처리: 긍정과 부정 리뷰의 비율 불균형 문제를 해결하기 위해 샘플링 기법을 적용하거나, 클래스 가중치를 조정할 수 있습니다. 다중 클래스 분류: 평점이 1부터 5까지의 정수 값을 갖는 경우, 다중 클래스 분류로 모델을 확장할 수 있습니다. 🔗 참고 문서 Hugging Face Transformers Documentation PyTorch Documentation
+---
+
+
 ### 추가된 배지 설명:
 
 1. **Python 버전 배지**: Python 3.9 버전을 나타내는 배지
@@ -47,7 +51,4 @@ pip install torch transformers pandas numpy matplotlib seaborn tqdm
 3. **Hugging Face 배지**: Hugging Face의 Transformers 라이브러리 배지
 4. **라이센스 배지**: MIT 라이센스 배지
 
-이 배지들은 프로젝트의 주요 기술 스택과 라이센스를 한 눈에 알아볼 수 있게 해 줍니다. `simple-icon-badges`에서 제공하는 다양한 아이콘을 활용하여 프로젝트에 관련된 배지를 자유롭게 추가할 수 있습니다. 
-
-배지를 수정하려면 링크를 자신이 원하는 대로 수정하고 추가하면 됩니다. 예를 들어, **PyTorch 버전**이나 **라이센스** 등은 배지 링크에서 해당 부분만 변경하면 됩니다.
 
