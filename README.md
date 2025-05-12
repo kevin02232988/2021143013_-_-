@@ -47,60 +47,52 @@ pip install torch transformers pandas numpy matplotlib seaborn tqdm
 2. 코드 설명
 사전 세팅
 Device 설정: GPU를 사용할 수 있으면 CUDA를 이용하고, 그렇지 않으면 CPU를 사용합니다.
-
 python
-복사
-편집
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 데이터 로드
 CSV 파일을 로드하고, 결측치를 제거한 후, Rating을 실수형으로 변환하고, 긍정/부정 라벨링을 진행합니다.
-
 python
-복사
-편집
 df = pd.read_csv("cleaned_sampled_12_reviews_final.csv")
 df = df.dropna(subset=["Text", "Branch", "Rating"])
 df["Label"] = df["Rating"].apply(lambda x: 1 if x > 3 else 0)
+
+
 모델 로드
 MobileBERT 모델을 로드하고, 해당 모델을 사용하여 리뷰 텍스트의 긍정/부정을 예측합니다.
-
 python
-복사
-편집
 model = MobileBertForSequenceClassification.from_pretrained("mobilebert_hotel_finetuned")
 tokenizer = MobileBertTokenizer.from_pretrained("mobilebert_hotel_finetuned")
 model.to(device)
 model.eval()
+
+
 리뷰 예측
 리뷰 텍스트를 토크나이징하여 모델에 입력하고, 각 리뷰에 대해 긍정/부정 예측을 수행합니다.
-
 python
-복사
-편집
 inputs = tokenizer(texts, truncation=True, padding="max_length", max_length=256, return_tensors="pt")
+
+
 지점별 평점 계산
 각 지점별로 실제 평점의 평균을 계산하고, 예측된 긍정 비율을 기반으로 예상 평점을 계산합니다.
-
 python
-복사
-편집
 actual_ratings = grouped["Rating"].mean()
 positive_ratio = grouped["Predicted"].mean()
 estimated_ratings = positive_ratio * 4 + 1
+
+
 상관계수 계산
 실제 평점과 예측 평점 간의 상관관계를 계산하여 신뢰도를 분석합니다.
-
 python
-복사
-편집
 correlation = result["Actual_Avg_Rating"].corr(result["Estimated_Rating"])
+
+
 시각화
 실제 평점과 예상 평점 간의 관계를 시각화하여 직관적으로 비교할 수 있습니다.
-
 python
-복사
-편집
 sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=result.index)
+
+
 📈 분석 결과
 상관계수 분석
 상관계수: 실제 평점과 예측 평점 간의 상관관계를 계산하여, 예측 모델의 신뢰도를 분석합니다.
