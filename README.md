@@ -23,6 +23,12 @@ MobileBERT 모델을 사용하여 **텍스트 분류** 작업을 진행하고, *
 
 ---
 
+## 2. 원시 데이터
+
+
+
+---
+
 ## **📊 데이터셋**
 
 - **파일명**: `cleaned_sampled_12_reviews_final.csv`
@@ -44,7 +50,7 @@ pip install torch transformers pandas numpy matplotlib seaborn tqdm
 
 ---
 
-2. 코드 설명
+##  2. 코드 설명
 사전 세팅
 Device 설정: GPU를 사용할 수 있으면 CUDA를 이용하고, 그렇지 않으면 CPU를 사용합니다.
 python
