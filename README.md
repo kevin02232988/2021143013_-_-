@@ -54,7 +54,10 @@ pip install torch transformers pandas numpy matplotlib seaborn tqdm
 사전 세팅
 Device 설정: GPU를 사용할 수 있으면 CUDA를 이용하고, 그렇지 않으면 CPU를 사용합니다.
 python
+```bash
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+```
+---
 
 ## 3. 데이터 로드
 CSV 파일을 로드하고, 결측치를 제거한 후, Rating을 실수형으로 변환하고, 긍정/부정 라벨링을 진행합니다.
