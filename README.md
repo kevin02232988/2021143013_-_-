@@ -26,7 +26,7 @@ MobileBERT 모델을 사용하여 **텍스트 분류** 작업을 진행하고, *
 ## 2. 원시 데이터
 
 
-[호텔 리뷰들 데이터셋][(https://www.kaggle.com](https://www.kaggle.com/datasets/arnabchaki/tripadvisor-reviews-2023))<br/>
+[호텔 리뷰들 데이터셋](https://www.kaggle.com/datasets/arnabchaki/tripadvisor-reviews-2023))<br/>
 
 
 ---
