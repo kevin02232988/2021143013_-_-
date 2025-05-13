@@ -65,7 +65,7 @@ pip install torch transformers pandas numpy matplotlib seaborn tqdm
 ```
 ---
 
-##  2. 코드 설명
+###  2. 디바이스 설정
 사전 세팅
 Device 설정: GPU를 사용할 수 있으면 CUDA를 이용하고, 그렇지 않으면 CPU를 사용합니다.
 
@@ -74,17 +74,17 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ```
 ---
 
-## 3. 데이터 로드
+### 3. 데이터 로드 및 라벨링
 CSV 파일을 로드하고, 결측치를 제거한 후, Rating을 실수형으로 변환하고, 긍정/부정 라벨링을 진행합니다.
 ```bash
 df = pd.read_csv("cleaned_sampled_12_reviews_final.csv")
-df = df.dropna(subset=["Text", "Branch", "Rating"])
-df["Label"] = df["Rating"].apply(lambda x: 1 if x > 3 else 0)
+df["rating_review"] = df["rating_review"].astype(float)
+df["Label"] = df["rating_review"].apply(lambda x: 1 if x > 3 else 0)
 ```
 ---
 
 
-## 4. 모델 로드
+### 4. 모델 로드
 Google의 사전 학습된 MobileBERT(`google/mobilebert-uncased`) 모델을 호텔 리뷰 감성 분석에 맞게 파인튜닝하였습니다.  
 이후, 학습된 모델을 이용해 전체 리뷰 데이터에 대해 긍정/부정 예측을 수행합니다.
 
@@ -95,6 +95,36 @@ model.to(device)
 model.eval()
 ```
 ---
+### 4_1)🧠 모델 파인튜닝 과정
+Google의 사전 학습 모델 **google/mobilebert-uncased**를 기반으로, 감정 분류 목적에 맞게 파인튜닝을 수행했습니다.
+
+데이터 분할:
+
+학습: 90%
+
+검증: 10%
+
+라벨 기준:
+
+평점 > 3: 긍정 (1)
+
+평점 ≤ 3: 부정 (0)
+
+Trainer 설정:
+
+에폭: 3
+
+배치 크기: 8
+
+최대 길이: 256 토큰
+
+사용 라이브러리:
+
+transformers.Trainer
+
+ReviewDataset 사용자 정의 클래스
+
+훈련된 모델과 토크나이저는 mobilebert_finetuned_drug/ 디렉토리에 저장 후 추론에 활용했습니다.
 
 
 ## 5. 리뷰 예측
@@ -148,6 +178,31 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 
 ---
 
+### 9_1) 📈 분석 결과
+파인튜닝된 MobileBERT 모델을 사용하여 전체 리뷰 데이터에 대해 예측을 수행하고, 아래와 같은 결과를 얻었습니다.
+
+⭐ 전체 실제 평균 평점: X.XX
+
+🤖 모델 예측 기반 예상 평점: Y.YY
+
+📊 긍정 리뷰 비율 (예측): ZZ.ZZ%
+
+🔍 예측 라벨 분포:
+
+긍정(1): A 개
+
+부정(0): B 개
+
+예측 평점은 다음 방식으로 산출됩니다:
+
+
+```bash
+estimated_rating = positive_ratio * 4 + 1
+```
+이 방식은 긍정 비율을 기반으로 1~5 사이의 예상 평점을 도출하는 선형 추정 방식입니다.
+
+---
+
 
 ## 10. 📸 시각화 결과
 
@@ -156,20 +211,30 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 
 지점별 실제 평점과 예상 평점의 관계를 시각화하여, 모델 예측이 실제 평점과 어느 정도 일치하는지 확인할 수 있습니다.
 
+## 10_1) 📸 시각화 결과
+```bash
+sns.set(style="whitegrid")
+plt.bar(["Actual Rating", "Estimated Rating"], [actual_avg_rating, estimated_rating], color=["skyblue", "salmon"])
+plt.ylim(0, 5)
+plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
+```
+
 ## 11. 🚀 개선 방안
-파인튜닝: MobileBERT 모델을 현재 데이터셋에 맞게 추가로 파인튜닝할 수 있습니다.
+클래스 불균형 처리: 긍/부정 리뷰 비율이 불균형할 경우, oversampling / undersampling 또는 가중치 조정 필요
 
-클래스 불균형 처리: 긍정과 부정 리뷰의 비율 불균형 문제를 해결하기 위해 샘플링 기법을 적용하거나, 클래스 가중치를 조정할 수 있습니다.
+정규화된 다중 클래스 평점 예측: 1~5 점수를 그대로 예측하는 방식으로 확장 가능
 
-다중 클래스 분류: 평점이 1부터 5까지의 정수 값을 갖는 경우, 다중 클래스 분류로 모델을 확장할 수 있습니다.
+다양한 사전 학습 모델 실험: DistilBERT, RoBERTa 등 비교 실험
+
+Branch (지점) 별 분석: 지점별 예측 정확도 분석 및 개선
+
 
 ---
 ## 12. 🚀 결론과 유출 가능한 추론
 
-MobileBERT 기반의 텍스트 분류 모델은 호텔 리뷰의 감정 분석에 효과적으로 활용될 수 있으며,  
-실제 평점과 예측 평점 간의 상관관계가 **X.XX**로 나타나 모델의 신뢰도가 **중간 이상**임을 확인했습니다.
+본 프로젝트에서는 MobileBERT를 파인튜닝하여 호텔 리뷰에 대한 감정 예측 모델을 구축하였고, 실제 평점과 모델이 예측한 평점 간의 오차가 작다는 점에서 중간 이상의 신뢰도를 확인할 수 있었습니다.
 
-이러한 분석 결과는 **지점별 고객 경험 개선**이나 **자동 리뷰 평가 시스템** 개발 등에 활용될 수 있습니다.
+이러한 감성 분석 모델은 향후 고객 경험 분석, 자동 리뷰 모니터링 시스템, 지점별 서비스 품질 진단 등에 활용될 수 있습니다.
 
 
 ---
