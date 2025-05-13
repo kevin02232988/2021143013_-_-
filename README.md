@@ -47,7 +47,7 @@ MobileBERT 모델을 사용하여 **텍스트 분류** 작업을 진행하고, *
 
 ```bash
 pip install torch transformers pandas numpy matplotlib seaborn tqdm
-
+```
 ---
 
 ##  2. 코드 설명
