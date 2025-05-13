@@ -12,37 +12,37 @@
 3. [원시 데이터](#2-원시-데이터)
 4. [데이터셋 설명](#📊-데이터셋)
 5. [실행 방법](#⚙️-실행-방법)
-6. [분석 프로세스](#2-코드-설명)
-7. [모델 예측 및 결과](#9-📈-분석-결과)
-8. [시각화](#10-시각화-결과)
-9. [개선 방안](#11-🚀-개선-방안)
-10. [결론](#12-🚀-결론과-유출-가능한-추론)
+6. [모델 파인튜닝](#🧠-모델-파인튜닝-과정)
+7. [모델 예측 및 결과](#📈-분석-결과)
+8. [시각화](#📸-시각화-결과)
+9. [개선 방안](#🚀-개선-방안)
+10. [결론](#🚀-결론과-유출-가능한-추론)
 11. [참고 문서](#🔗-참고-문서)
 
 
+---
+
 ## **📜 프로젝트 개요**
 
-이 프로젝트는 **호텔 리뷰 데이터셋**을 활용하여, **리뷰 텍스트**를 기반으로 **호텔 지점별로 긍정적인 리뷰와 부정적인 리뷰**를 예측하고, 이를 통해 **각 지점의 평균 평점**과 **예상 평점**을 분석하는 것입니다.  
-MobileBERT 모델을 사용하여 **텍스트 분류** 작업을 진행하고, **예측된 평점과 실제 평점 간의 상관관계**를 분석합니다.
+이 프로젝트는 **호텔 리뷰 데이터셋**을 기반으로 리뷰 텍스트로부터 **긍정/부정 감성**을 예측하고, 이를 통해 전체 리뷰의 평균 평점과 모델이 예측한 평점 간의 관계를 분석합니다.
+
+Google의 MobileBERT 모델을 **직접 파인튜닝**하여 감성 분류에 활용하고, 예측된 긍정 비율로부터 **예상 평점**을 도출합니다.
 
 ---
 
 ## **🧑‍💻 기술 스택**
 
 - **Python**: 주요 프로그래밍 언어
-- **PyTorch**: 딥러닝 모델 학습 및 예측
-- **Transformers**: Hugging Face의 MobileBERT 모델
-- **Pandas**: 데이터 처리
-- **NumPy**: 수치 계산
-- **Matplotlib & Seaborn**: 데이터 시각화
+- **PyTorch**: 딥러닝 모델 학습 및 추론
+- **Transformers (Hugging Face)**: MobileBERT 사전 학습 모델 및 Trainer API
+- **Pandas / NumPy**: 데이터 처리 및 분석
+- **Matplotlib / Seaborn**: 시각화 도구
 
 ---
 
-## 2. 원시 데이터
+## **2. 원시 데이터**
 
-
-[호텔 리뷰들 데이터셋](https://www.kaggle.com/datasets/arnabchaki/tripadvisor-reviews-2023)<br/>
-
+- [호텔 리뷰 데이터셋 (TripAdvisor)](https://www.kaggle.com/datasets/arnabchaki/tripadvisor-reviews-2023)
 
 ---
 
@@ -50,20 +50,18 @@ MobileBERT 모델을 사용하여 **텍스트 분류** 작업을 진행하고, *
 
 - **파일명**: `cleaned_sampled_12_reviews_final.csv`
 - **주요 컬럼**:
-  - `Text`: 리뷰 텍스트
-  - `Branch`: 호텔 지점
-  - `Rating`: 실제 평점 (1~5)
-  - `Label`: 긍정(1) / 부정(0) 라벨 (평점 > 3이면 긍정, 이하 부정)
+  - `review_full`: 리뷰 텍스트
+  - `rating_review`: 사용자 평점 (1~5)
+  - `Label`: 감정 라벨 (1 = 긍정, 0 = 부정)
 
 ---
 
 ## **⚙️ 실행 방법**
 
-### **1. 라이브러리 설치**
-필요한 라이브러리를 설치하려면 다음 명령어를 실행하세요:
-
+### 1. 라이브러리 설치
 ```bash
 pip install torch transformers pandas numpy matplotlib seaborn tqdm
+
 ```
 ---
 
@@ -87,7 +85,9 @@ df["Label"] = df["Rating"].apply(lambda x: 1 if x > 3 else 0)
 
 
 ## 4. 모델 로드
-MobileBERT 모델을 로드하고, 해당 모델을 사용하여 리뷰 텍스트의 긍정/부정을 예측합니다.
+Google의 사전 학습된 MobileBERT(`google/mobilebert-uncased`) 모델을 호텔 리뷰 감성 분석에 맞게 파인튜닝하였습니다.  
+이후, 학습된 모델을 이용해 전체 리뷰 데이터에 대해 긍정/부정 예측을 수행합니다.
+
 ```bash
 model = MobileBertForSequenceClassification.from_pretrained("mobilebert_hotel_finetuned")
 tokenizer = MobileBertTokenizer.from_pretrained("mobilebert_hotel_finetuned")
