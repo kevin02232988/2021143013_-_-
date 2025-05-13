@@ -134,7 +134,7 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 다중 클래스 분류: 평점이 1부터 5까지의 정수 값을 갖는 경우, 다중 클래스 분류로 모델을 확장할 수 있습니다.
 
 ---
-## 12. 🚀 결론!
+## 12. 🚀 결론과 유출 가능한 추론
 
 
 ---
