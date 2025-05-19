@@ -195,15 +195,27 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 ### 9_1) 📈 분석 결과
 파인튜닝된 MobileBERT 모델을 사용하여 전체 리뷰 데이터에 대해 예측을 수행하고, 아래와 같은 결과를 얻었습니다.
 
-⭐ 전체 실제 평균 평점: 4.24  
+⭐ 전체 실제 평균 평점: 4.24
+🤖 전체 예측 기반 평점: 4.48
+📊 전체 긍정 리뷰 비율: 86.94%
+🔍 예측 라벨 분포: Counter({1: 21736, 0: 3264})
 
-🤖 모델 예측 기반 예상 평점: 4.47  
+✅ 정확도 (Accuracy): 92.34%
 
-📊 긍정 리뷰 비율 (예측): 86.74%  
+📋 분류 리포트 (Classification Report):
+              precision    recall  f1-score   support
 
-🔍 예측 라벨 분포:  
-- 긍정(1): 21,684개  
-- 부정(0): 3,316개  
+          부정       0.85      0.66      0.74      4194
+          긍정       0.93      0.98      0.96     20806
+
+    accuracy                           0.92     25000
+   macro avg       0.89      0.82      0.85     25000
+weighted avg       0.92      0.92      0.92     25000
+
+
+🔍 혼동 행렬 (Confusion Matrix):
+[[ 2772  1422]
+ [  492 20314]]
 
 
 예측 평점은 다음 방식으로 산출됩니다:
@@ -244,6 +256,10 @@ plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
 ![그래프](Figure_1.png)
 
 ----
+
+10_3) Confushion Matrix
+
+![그래프](mix.png)
 
 ## 11. 🚀 개선 방안
 클래스 불균형 처리: 긍/부정 리뷰 비율이 불균형할 경우, oversampling / undersampling 또는 가중치 조정 필요
