@@ -235,6 +235,7 @@ estimated_rating = positive_ratio * 4 + 1
 지점별 실제 평점과 예상 평점의 관계를 시각화하여, 모델 예측이 실제 평점과 어느 정도 일치하는지 확인할 수 있습니다.
 
 ## 10_1) 📸 시각화 결과
+![그래프](Figure_1.png)
 ```bash
 sns.set(style="whitegrid")
 plt.bar(["Actual Rating", "Estimated Rating"], [actual_avg_rating, estimated_rating], color=["skyblue", "salmon"])
