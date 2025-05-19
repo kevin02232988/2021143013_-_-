@@ -236,6 +236,7 @@ estimated_rating = positive_ratio * 4 + 1
 
 ## 10_1) 📸 시각화 결과
 ![그래프](Figure_1.png)
+![그래프](2.png)
 ```bash
 sns.set(style="whitegrid")
 plt.bar(["Actual Rating", "Estimated Rating"], [actual_avg_rating, estimated_rating], color=["skyblue", "salmon"])
