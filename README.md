@@ -134,22 +134,12 @@ Trainer API 활용
 
 평점 ≤ 3: 부정 (0)
 
-Trainer 설정:
 
-에폭: 3
-
-배치 크기: 8
-
-최대 길이: 256 토큰
-
-사용 라이브러리:
-
-transformers.Trainer
-
-ReviewDataset 사용자 정의 클래스
+사용 라이브러리: transformers.Trainer // ReviewDataset 사용자 정의 클래스
 
 훈련된 모델과 토크나이저는 mobilebert_finetuned_drug/ 디렉토리에 저장 후 추론에 활용했습니다.
 
+----
 
 ## 5. 리뷰 예측
 리뷰 텍스트를 토크나이징하여 모델에 입력하고, 각 리뷰에 대해 긍정/부정 예측을 수행합니다.
