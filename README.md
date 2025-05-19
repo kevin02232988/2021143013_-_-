@@ -215,10 +215,11 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 weighted avg       0.92      0.92      0.92     25000
 ```
 
+
 🔍 혼동 행렬 (Confusion Matrix):
 [[ 2772  1422]
  [  492 20314]]
-
+----
 
 예측 평점은 다음 방식으로 산출됩니다:
 
@@ -251,7 +252,7 @@ plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
 
 ----
 
-10_2) 전체 리뷰 데이터셋 (샘플링 이후 전체)
+## 10_2) 전체 리뷰 데이터셋 (샘플링 이후 전체)
 
 전체 리뷰 데이터셋에 대한 실제 평점과 모델 기반 예상 평점 비교
 
@@ -259,7 +260,7 @@ plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
 
 ----
 
-10_3) Confushion Matrix
+## 10_3) Confushion Matrix
 
 ![그래프](mix.png)
 
