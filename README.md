@@ -202,7 +202,9 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 
 ✅ 정확도 (Accuracy): 92.34%
 
+
 📋 분류 리포트 (Classification Report):
+```bash
               precision    recall  f1-score   support
 
           부정       0.85      0.66      0.74      4194
@@ -211,7 +213,7 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
     accuracy                           0.92     25000
    macro avg       0.89      0.82      0.85     25000
 weighted avg       0.92      0.92      0.92     25000
-
+```
 
 🔍 혼동 행렬 (Confusion Matrix):
 [[ 2772  1422]
