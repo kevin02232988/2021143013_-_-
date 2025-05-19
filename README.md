@@ -229,20 +229,31 @@ estimated_rating = positive_ratio * 4 + 1
 
 ## 10. 📸 시각화 결과
 
-![scatter_plot](images/scatter_actual_vs_estimated.png)
-> 지점별 실제 평점과 예측 평점 간의 관계를 나타낸 산점도입니다.
 
-지점별 실제 평점과 예상 평점의 관계를 시각화하여, 모델 예측이 실제 평점과 어느 정도 일치하는지 확인할 수 있습니다.
-
-## 10_1) 📸 시각화 결과
-![그래프](Figure_1.png)
-![그래프](2.png)
 ```bash
 sns.set(style="whitegrid")
 plt.bar(["Actual Rating", "Estimated Rating"], [actual_avg_rating, estimated_rating], color=["skyblue", "salmon"])
 plt.ylim(0, 5)
 plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
 ```
+ 지점별 실제 평점과 예측 평점 간의 관계를 나타낸 산점도입니다.
+
+지점별 실제 평점과 예상 평점의 관계를 시각화하여, 모델 예측이 실제 평점과 어느 정도 일치하는지 확인할 수 있습니다.
+
+## 10_1)  전체 데이터셋 (2000개 샘플 기준)
+
+전체 학습용 2000개 샘플의 실제 평균 평점과 MobileBERT 모델이 예측한 평점 간 비교입니다.
+![그래프](2.png)
+
+----
+
+10_2) 전체 리뷰 데이터셋 (샘플링 이후 전체)
+
+전체 리뷰 데이터셋에 대한 실제 평점과 모델 기반 예상 평점 비교
+
+![그래프](Figure_1.png)
+
+----
 
 ## 11. 🚀 개선 방안
 클래스 불균형 처리: 긍/부정 리뷰 비율이 불균형할 경우, oversampling / undersampling 또는 가중치 조정 필요
