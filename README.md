@@ -89,14 +89,16 @@ Google의 사전 학습된 MobileBERT(`google/mobilebert-uncased`) 모델을 호
 이후, 학습된 모델을 이용해 전체 리뷰 데이터에 대해 긍정/부정 예측을 수행합니다.
 
 ```bash
-model = MobileBertForSequenceClassification.from_pretrained("mobilebert_hotel_finetuned")
-tokenizer = MobileBertTokenizer.from_pretrained("mobilebert_hotel_finetuned")
+model = MobileBertForSequenceClassification.from_pretrained("mobilebert_finetuned_2k")
+tokenizer = MobileBertTokenizer.from_pretrained("mobilebert_finetuned_2k")
 model.to(device)
 model.eval()
 ```
 ---
 ### 4_1)🧠 모델 파인튜닝 과정
 Google의 사전 학습 모델 **google/mobilebert-uncased**를 기반으로, 감정 분류 목적에 맞게 파인튜닝을 수행했습니다.
+학습 데이터 2,000개 샘플을 사용하여 3 에폭 동안 MobileBERT를 파인튜닝했습니다. [Trainer 설정(에폭 3, 배치 8, max length 256)]
+
 
 데이터 분할:
 
@@ -181,17 +183,16 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 ### 9_1) 📈 분석 결과
 파인튜닝된 MobileBERT 모델을 사용하여 전체 리뷰 데이터에 대해 예측을 수행하고, 아래와 같은 결과를 얻었습니다.
 
-⭐ 전체 실제 평균 평점: X.XX
+⭐ 전체 실제 평균 평점: 4.24  
 
-🤖 모델 예측 기반 예상 평점: Y.YY
+🤖 모델 예측 기반 예상 평점: 4.47  
 
-📊 긍정 리뷰 비율 (예측): ZZ.ZZ%
+📊 긍정 리뷰 비율 (예측): 86.74%  
 
-🔍 예측 라벨 분포:
+🔍 예측 라벨 분포:  
+- 긍정(1): 21,684개  
+- 부정(0): 3,316개  
 
-긍정(1): A 개
-
-부정(0): B 개
 
 예측 평점은 다음 방식으로 산출됩니다:
 
