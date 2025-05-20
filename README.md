@@ -197,37 +197,37 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 
 
 Epoch 1: Train loss: 41736.8651, Train Accuracy: 0.9681, Validation Accuracy: 0.9550
+
 Epoch 2: Train loss: 0.1608, Train Accuracy: 0.9794, Validation Accuracy: 0.9650
+
 Epoch 3: Train loss: 0.1085, Train Accuracy: 0.9919, Validation Accuracy: 0.9725
+
 Epoch 4: Train loss: 0.0759, Train Accuracy: 0.9919, Validation Accuracy: 0.9675 
 
 
 ### 9_1) 📊 각 에포크 해석
 Epoch 1
 Train loss: 41736.8651: 매우 큰 값 → 이때는 아직 학습 초기라 손실이 큼.
-
 Train Accuracy: 0.9681 (96.81%): 학습 데이터에는 높은 정확도를 보임.
-
 Validation Accuracy: 0.9550 (95.50%): 검증 데이터에도 성능이 나쁘지 않음.
 
 Epoch 2
 손실이 크게 감소: 0.1608
-
 정확도 향상: Train 97.94%, Validation 96.50%
-
 모델이 급속히 좋아지고 있음.
 
 Epoch 3
 손실 더 감소: 0.1085
-
 정확도 더 향상: Train 99.19%, Validation 97.25%
-
 과적합(overfitting) 걱정은 아직 없어 보임.
 
 Epoch 4
 손실 줄고 정확도 유지
-
 Train Accuracy: 99.19%로 그대로지만, Validation Accuracy는 약간 떨어짐 (97.25% → 96.75%)
+
+
+![Validation Accuracy Graph](valid%20data.png)
+
 
 ---
 
@@ -359,6 +359,59 @@ Branch (지점) 별 분석: 지점별 예측 정확도 분석 및 개선
 ---
 ## 13. 🚀 느낀점과 배운
 배운 점은 Accuray를 높이기 위해서는 데이터의 전처리와 데이터의 일관성은 모델 학습에 매우 중요한 요소임을 깨달을 수 있었습니다.
+또한 이 결과에 따르면, 평점에 따라 호텔을 선택하는 것이 굳이 리뷰를 보지 않아도 좋은 선택을 할 수 있다는 방증이 됩니다lt.title("📈 전체 실제 평점 vs 예측 기반 평점")
+```
+ 지점별 실제 평점과 예측 평점 간의 관계를 나타낸 산점도입니다.
+
+지점별 실제 평점과 예상 평점의 관계를 시각화하여, 모델 예측이 실제 평점과 어느 정도 일치하는지 확인할 수 있습니다.
+
+
+## 10_0)  학습 데이터에 대한 정확도와 검증 데이터의 시각화 비교
+![그래프](valid data.png)
+
+
+
+## 10_1)  전체 데이터셋 (10% 샘플 기준)
+
+전체 학습용 2000개 샘플의 실제 평균 평점과 MobileBERT 모델이 예측한 평점 간 비교입니다.
+![그래프](2.png)
+
+----
+
+## 10_2) 전체 리뷰 데이터셋 
+
+전체 리뷰 데이터셋에 대한 실제 평점과 모델 기반 예상 평점 비교
+
+![그래프](Figure_1.png)
+
+----
+
+## 10_3) Confushion Matrix
+
+![그래프](mix.png)
+
+
+## 11. 🚀 개선 방안
+클래스 불균형 처리: 긍/부정 리뷰 비율이 불균형할 경우, oversampling / undersampling 또는 가중치 조정 필요
+
+정규화된 다중 클래스 평점 예측: 1~5 점수를 그대로 예측하는 방식으로 확장 가능
+
+다양한 사전 학습 모델 실험: DistilBERT, RoBERTa 등 비교 실험
+
+Branch (지점) 별 분석: 지점별 예측 정확도 분석 및 개선
+
+
+
+---
+## 12. 🚀 결론과 유출 가능한 추론
+
+본 프로젝트는 MobileBERT를 효과적으로 파인튜닝하여 호텔 리뷰의 긍정/부정 감성을 예측하였고, 모델 예측 기반 평점이 실제 평점과 근접함을 확인했습니다.
+이는 리뷰 기반 고객 만족도 모니터링, 자동화된 서비스 품질 평가 등에 활용 가능함을 시사합니다. 또한 데이터의 신뢰성을 바탕으로 다양한 2차적**활용**또한 시도해 봄 직합니다.
+
+---
+## 13. 🚀 느낀점과 배운
+배운 점은 Accuray를 높이기 위해서는 데이터의 전처리와 데이터의 일관성은 모델 학습에 매우 중요한 요소임을 깨달을 수 있었습니다.
+또한 이 결과에 따르면, 평점에 따라 호텔을 선택하는 것이 굳이 리뷰를 보지 않아도 좋은 선택을 할 수 있다는 방증이 됩니다
 
 ## 🔗 참고 문서
 Hugging Face Transformers Documentation
