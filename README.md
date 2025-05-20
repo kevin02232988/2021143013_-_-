@@ -192,8 +192,43 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 
 ---
 
-### 9_1) 📈 분석 결과
+### 9_0) 📈 분석 결과
 파인튜닝된 MobileBERT 모델을 사용하여 일부부 리뷰 데이터에 대해 예측을 수행하고, 아래와 같은 결과를 얻었습니다.
+
+
+Epoch 1: Train loss: 41736.8651, Train Accuracy: 0.9681, Validation Accuracy: 0.9550
+Epoch 2: Train loss: 0.1608, Train Accuracy: 0.9794, Validation Accuracy: 0.9650
+Epoch 3: Train loss: 0.1085, Train Accuracy: 0.9919, Validation Accuracy: 0.9725
+Epoch 4: Train loss: 0.0759, Train Accuracy: 0.9919, Validation Accuracy: 0.9675 
+
+
+### 9_1) 📊 각 에포크 해석
+Epoch 1
+Train loss: 41736.8651: 매우 큰 값 → 이때는 아직 학습 초기라 손실이 큼.
+
+Train Accuracy: 0.9681 (96.81%): 학습 데이터에는 높은 정확도를 보임.
+
+Validation Accuracy: 0.9550 (95.50%): 검증 데이터에도 성능이 나쁘지 않음.
+
+Epoch 2
+손실이 크게 감소: 0.1608
+
+정확도 향상: Train 97.94%, Validation 96.50%
+
+모델이 급속히 좋아지고 있음.
+
+Epoch 3
+손실 더 감소: 0.1085
+
+정확도 더 향상: Train 99.19%, Validation 97.25%
+
+과적합(overfitting) 걱정은 아직 없어 보임.
+
+Epoch 4
+손실 줄고 정확도 유지
+
+Train Accuracy: 99.19%로 그대로지만, Validation Accuracy는 약간 떨어짐 (97.25% → 96.75%)
+
 
 ⭐ 전체 실제 평균 평점: 4.24
 🤖 전체 예측 기반 평점: 4.48
@@ -275,6 +310,12 @@ plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
 
 지점별 실제 평점과 예상 평점의 관계를 시각화하여, 모델 예측이 실제 평점과 어느 정도 일치하는지 확인할 수 있습니다.
 
+
+## 10_0)  학습 데이터에 대한 정확도와 검증 데이터의 시각화 비교
+![그래프](valid data.png)
+
+
+
 ## 10_1)  전체 데이터셋 (2000개 샘플 기준)
 
 전체 학습용 2000개 샘플의 실제 평균 평점과 MobileBERT 모델이 예측한 평점 간 비교입니다.
@@ -293,6 +334,7 @@ plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
 ## 10_3) Confushion Matrix
 
 ![그래프](mix.png)
+
 
 ## 11. 🚀 개선 방안
 클래스 불균형 처리: 긍/부정 리뷰 비율이 불균형할 경우, oversampling / undersampling 또는 가중치 조정 필요
