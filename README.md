@@ -197,11 +197,8 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 
 
 Epoch 1: Train loss: 41736.8651, Train Accuracy: 0.9681, Validation Accuracy: 0.9550
-
 Epoch 2: Train loss: 0.1608, Train Accuracy: 0.9794, Validation Accuracy: 0.9650
-
 Epoch 3: Train loss: 0.1085, Train Accuracy: 0.9919, Validation Accuracy: 0.9725
-
 Epoch 4: Train loss: 0.0759, Train Accuracy: 0.9919, Validation Accuracy: 0.9675 
 
 
@@ -232,9 +229,38 @@ Epoch 4
 
 Train Accuracy: 99.19%로 그대로지만, Validation Accuracy는 약간 떨어짐 (97.25% → 96.75%)
 
+---
+
+### 9_2_1) 📈 분석 결과 (데이터 미 학습시)
+
+⭐ 전체 실제 평균 평점: 4.24
+🤖 전체 예측 기반 평점: 4.48
+📊 전체 긍정 리뷰 비율: 86.94%
+🔍 예측 라벨 분포: Counter({1: 21736, 0: 3264})
+
+### ✅ 정확도 (Accuracy): 92.34
 
 
-##  부 데이터를 학습시  (10%))
+📋 분류 리포트 (Classification Report):
+```bash
+              precision    recall  f1-score   support
+
+          부정       0.85      0.66      0.74      4194
+          긍정       0.93      0.98      0.96     20806
+
+    accuracy                           0.92     25000
+   macro avg       0.89      0.82      0.85     25000
+weighted avg       0.92      0.92      0.92     25000
+```
+
+
+🔍 혼동 행렬 (Confusion Matrix):
+[[ 2772  1422]
+[  492 20314]]
+
+---
+
+### 9_2_2) 📈 분석 결과 (일부 데이터를 학습시(10%))
 파인튜닝된 MobileBERT 모델을 사용하여 전체 리뷰 데이터에 대해 예측을 수행하고, 아래와 같은 결과를 얻었습니다.
 
 ⭐ 전체 실제 평균 평점: 4.24
@@ -288,16 +314,19 @@ plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
 지점별 실제 평점과 예상 평점의 관계를 시각화하여, 모델 예측이 실제 평점과 어느 정도 일치하는지 확인할 수 있습니다.
 
 
+## 10_0)  학습 데이터에 대한 정확도와 검증 데이터의 시각화 비교
+![그래프](valid data.png)
 
 
-## 10_1)  전체 데이터셋 (2000개 샘플 기준)
+
+## 10_1)  전체 데이터셋 (10% 샘플 기준)
 
 전체 학습용 2000개 샘플의 실제 평균 평점과 MobileBERT 모델이 예측한 평점 간 비교입니다.
 ![그래프](2.png)
 
 ----
 
-## 10_2) 전체 리뷰 데이터셋 (샘플링 이후 전체)
+## 10_2) 전체 리뷰 데이터셋 
 
 전체 리뷰 데이터셋에 대한 실제 평점과 모델 기반 예상 평점 비교
 
@@ -342,6 +371,9 @@ PyTorch Documentation
 2. **PyTorch 배지**: PyTorch 1.9.0 버전 배지
 3. **Hugging Face 배지**: Hugging Face의 Transformers 라이브러리 배지
 4. **라이센스 배지**: MIT 라이센스 배지
+
+
+
 
 
 
