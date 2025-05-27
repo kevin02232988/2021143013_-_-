@@ -46,6 +46,12 @@ Google의 MobileBERT 모델을 **직접 파인튜닝**하여 감성 분류에 �
 
 ---
 
+## **2_1. 데이터 전처리**
+
+- 위 데이터에서 영어 이외의 언어를 제외하고, 특수문자 도배 또한 제외하였습니다. 또한, 너무 과거의 데이터와 너무 최근의 데이터는 삭제하고 진행했습니다.
+
+---
+
 ## **📊 데이터셋**
 
 - **파일명**: `cleaned_sampled_12_reviews_final.csv`
@@ -55,6 +61,16 @@ Google의 MobileBERT 모델을 **직접 파인튜닝**하여 감성 분류에 �
   - `Label`: 감정 라벨 (1 = 긍정, 0 = 부정)
 
 ---
+
+## ✅ 중립 리뷰 제거
+중립 리뷰인 3점 리뷰는 제거되게 하고 진행했습니다.
+```bash
+df = df[df['rating_review'] != 3]
+df['Sentiment'] = df['rating_review'].apply(lambda x: 1 if x >= 4 else 0)
+```
+----
+
+
 
 ## **⚙️ 실행 방법**
 
@@ -141,10 +157,23 @@ Trainer API 활용
 
 ----
 
+### 4_2)🧠 모델 파인튜닝 과정/ 모델 학습 및 저장
+ 총 2,000개의 리뷰를 기반으로 MobileBERT(`google/mobilebert-uncased`)를 fine-tuning했습니다.
+- 평점 기준으로 리뷰를 감성(긍정/부정)으로 변환했으며, 평점이 3인 중립 리뷰는 제외했습니다.
+- 학습 중 훈련 및 검증 정확도를 기록하고, 각 epoch의 정확도를 시각화한 그래프(`accuracy_curve.png`)를 저장합니다.
+- 학습된 모델과 토크나이저는 `mobilebert_custom_model_review` 디렉토리에 저장됩니다.
+- 학습 로그는 `training_log.csv`로 저장되어, 각 epoch마다 손실 및 정확도를 추적할 수 있습니다.
+---
+
 ## 5. 리뷰 예측
 리뷰 텍스트를 토크나이징하여 모델에 입력하고, 각 리뷰에 대해 긍정/부정 예측을 수행합니다.
 ```bash
 inputs = tokenizer(texts, truncation=True, padding="max_length", max_length=256, return_tensors="pt")
+```
+---
+## 5_1. 토크나이징 방식
+```bash
+inputs = tokenizer(data_X, truncation=True, max_length=256, padding="max_length", add_special_tokens=True)
 ```
 ---
 
@@ -358,7 +387,7 @@ Branch (지점) 별 분석: 지점별 예측 정확도 분석 및 개선
 ---
 ## 13. 🚀 느낀점과 배운
 배운 점은 Accuray를 높이기 위해서는 데이터의 전처리와 데이터의 일관성은 모델 학습에 매우 중요한 요소임을 깨달을 수 있었습니다.
-또한 이 결과에 따르면, 평점에 따라 호텔을 선택하는 것이 굳이 리뷰를 보지 않아도 좋은 선택을 할 수 있다는 방증이 됩니다
+또한 이 결과에 따르면, 평점에 따라 호텔을 선택하는 것이 굳이 리뷰를 보지 않아도 좋은 선택을 할 수 있다는 방증이 됩니다.
 
 ## 🔗 참고 문서
 Hugging Face Transformers Documentation
