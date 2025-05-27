@@ -191,7 +191,7 @@ positive_ratio = grouped["Predicted"].mean()
 estimated_ratings = positive_ratio * 4 + 1
 ```
 
-![Validation Accuracy Graph](accuracy_epochs.png)
+![Validation Accuracy Graph](hist_actual_ratings.png)
 
 ---
 
