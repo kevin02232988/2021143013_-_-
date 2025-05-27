@@ -358,9 +358,11 @@ plt.title("📈 전체 실제 평점 vs 예측 기반 평점")
 
 ![그래프](Figure_1.png)
 
+Estimate Outcome 과 Actual Outcome의 차이가 데이터를 학습한 이후, 차이가 더 미미해 졌다는 것을 알 수 있습니다.
+
 ----
 
-## 10_3) Confushion Matrix
+## 10_3) Confushion Matrix (혼동 행렬)
 
 ![그래프](mix.png)
 
