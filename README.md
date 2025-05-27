@@ -263,6 +263,10 @@ Train Accuracy: 99.19%로 그대로지만, Validation Accuracy는 약간 떨어�
 
 ![Validation Accuracy Graph](valid%20data.png)
 
+----
+
+![Validation Accuracy Graph](train_loss.png)
+
 
 ---
 
