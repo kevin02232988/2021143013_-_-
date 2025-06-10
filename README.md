@@ -231,7 +231,7 @@ sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=re
 ---
 
 ### 9_0) 📈 분석 결과
-파인튜닝된 MobileBERT 모델을 사용하여 일부부 리뷰 데이터에 대해 예측을 수행하고, 아래와 같은 결과를 얻었습니다.
+파인튜닝된 MobileBERT 모델을 사용하여 일부분 리뷰 데이터에 대해 예측을 수행하고, 아래와 같은 결과를 얻었습니다.
 
 
 Epoch 1: Train loss: 41736.8651, Train Accuracy: 0.9681, Validation Accuracy: 0.9550
