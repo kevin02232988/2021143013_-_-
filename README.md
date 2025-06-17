@@ -202,13 +202,6 @@ correlation = result["Actual_Avg_Rating"].corr(result["Estimated_Rating"])
 ---
 
 
-## 8. 시각화
-실제 평점과 예상 평점 간의 관계를 시각화하여 직관적으로 비교할 수 있습니다.
-```bash
-sns.scatterplot(x="Actual_Avg_Rating", y="Estimated_Rating", data=result, hue=result.index)
-```
----
-
 
 ## 9. 📈 분석 결과
 상관계수 분석
