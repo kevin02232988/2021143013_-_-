@@ -87,13 +87,6 @@ df['Sentiment'] = df['rating_review'].apply(lambda x: 1 if x >= 4 else 0)
 
 ### 1. 라이브러리 설치
 ```bash
-pip install torch transformers pandas numpy matplotlib seaborn tqdm
-
-```
----
-
-### 1_1. 의존성 설치
-```bash
 pip install torch==1.9.0 transformers==4.30.2 pandas numpy matplotlib seaborn tqdm
 
 ```
