@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/badge/License-MIT-%23FF9900?style=flat-square)
 
 
-## 📚 목차
+##  목차
 1. [프로젝트 개요](#-프로젝트-개요)
 2. [기술 스택](#-기술-스택)
 3. [원시 데이터](#2-원시-데이터)
