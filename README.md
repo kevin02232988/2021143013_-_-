@@ -85,7 +85,7 @@ df['Sentiment'] = df['rating_review'].apply(lambda x: 1 if x >= 4 else 0)
 
 ![Validation Accuracy Graph](P and N.png)
 
-----
+---
 
 
 ##  실행 방법
