@@ -83,7 +83,7 @@ df['Sentiment'] = df['rating_review'].apply(lambda x: 1 if x >= 4 else 0)
 
 ##  중립 리뷰 제거 이후 긍부정 비율
 
-![긍부정 비율](images/PN.png)
+![긍부정 비율](PN.png)
 
 
 
